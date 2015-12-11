@@ -1,3 +1,8 @@
+""" by Lingdong Huang
+"""
+
+# import modules
+
 import pygame
 import sys
 import math
@@ -21,11 +26,11 @@ import pygame._view
 
 import settings
 
+# initialization
 pygame.init()
 settings.init()
 
-
-
+# setting up variables
 size = width, height = 1280, 320
 buff = 200
 screen = pygame.display.set_mode([width/2,height+50])#,pygame.FULLSCREEN )
@@ -183,13 +188,7 @@ man.color = (140,140,140)
 man.arrows = arrows
 man.walk()
 
-
-
-
-
 pctrl = particle.ParticleCtrl()
-
-
 
 def makeBirds(n):
 	global birds
