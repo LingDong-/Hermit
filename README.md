@@ -17,6 +17,6 @@ Download the project. In terminal, type:
 https://www.youtube.com/watch?v=mPYeTJd8klQ
 
 ## Features
-* Procedurally generated map
+* EVERYTHING Procedurally generated
 * Day-night transition
 * Extremely detailed animations
