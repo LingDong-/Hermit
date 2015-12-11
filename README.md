@@ -10,7 +10,7 @@ A walk.
 
 ## HOW TO RUN
 Download the project. In terminal, type:
-```shell
+```bash
 $ python /path/to/folder/src/main.py
 ```
 For Mac Users, binary is available in release folder. Note that the binary is not always updated.
