@@ -12,7 +12,6 @@ A walk.
 Download the project. In terminal, type:
 `python /path/to/folder/src/main.py`
 
-
 ## VIDEO
 https://www.youtube.com/watch?v=mPYeTJd8klQ
 
