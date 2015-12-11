@@ -11,20 +11,19 @@ import random
 import numpy
 import string
 import os
-
-import noise
-import tree
-import creature
-import utilities as u
-import filter
-import parse
-
-import pattern
-import particle
-import font
 import pygame._view
 
-import settings
+import lib.noise as noise
+import lib.tree as tree
+import lib.creature as creature
+import lib.utilities as u
+import lib.filter as filter
+import lib.parse as parse
+
+import lib.pattern as pattern
+import lib.particle as particle
+import lib.font as font
+import lib.settings as settings
 
 # initialization
 pygame.init()
@@ -85,7 +84,7 @@ def Icon():
 	iconman.draw(icon)
 	iconhorse.draw(icon)
 	pygame.display.set_icon(icon)
-	
+
 Icon()
 #pygame.image.save(icon,"icon.png")
 
@@ -95,8 +94,8 @@ def makeBGLayer(n):
 	l = pygame.Surface([width+buff*2,height])
 	l.fill(COLOR_KEY)
 	l.set_colorkey(COLOR_KEY)
-	
-	
+
+
 
 	if terrain[n] == 0:
 		treesum = width/(0.0+len(Ls)*treeDensity)
@@ -108,7 +107,7 @@ def makeBGLayer(n):
 			thetree(l,random.random()*width+buff,height,(120-n*30)+random.randrange(-10,10))
 			loaded += 1
 	elif terrain[n] == 1:
-		
+
 		treesum = (width/(0.0+len(Ls)*treeDensity))
 		for i in range(0,int(math.ceil(treesum/2.0))):
 			thetree = [ random.choice([tree.tree1,tree.tree3]),
@@ -131,11 +130,11 @@ def makeBGLayer(n):
 	if totalMade[n]%int(lspds[n]*10) == 0:
 		terrain[n] = (terrain[n]+1) % 2
 
-	
+
 	print(str(loaded)+"/"+str(allloads))
 	return l
-	
-	
+
+
 def mt(LN,*args):
 	global Ls, Lrs, loaded, allloads
 	allloads = len(args)*(width/(len(Ls)*treeDensity))
@@ -145,7 +144,7 @@ def mt(LN,*args):
 			Ls[a] = makeBGLayer(a)
 	elif LN == 2:
 		for a in args:
-			Lrs[a] = makeBGLayer(a)		 
+			Lrs[a] = makeBGLayer(a)
 
 vine = pattern.Vine(0,160)
 
@@ -200,7 +199,7 @@ def makeBirds(n):
 		b.color = (140,140,140)
 		b.dir = random.choice([1,-1])
 		birds.append(b)
-		
+
 def makeDeers(n):
 	global deers
 	for i in range(0,n):
@@ -209,7 +208,7 @@ def makeDeers(n):
 		deer.yo = height
 		deer.s = 1.1
 		deer.aspd = 0.15
-		deers.append(deer)	
+		deers.append(deer)
 
 
 def makeCranes(n):
@@ -222,7 +221,7 @@ def makeCranes(n):
 		crane.s = 0.5+random.random()*0.2
 		crane.aspd = 0.05
 		crane.dir = -1
-		crane.t = (j/5.0)*200	
+		crane.t = (j/5.0)*200
 		cranes.append(crane)
 
 makeBirds(10)
@@ -235,14 +234,14 @@ landloc = 0
 landni = 0
 for landni in range(0,len(land)):
 	land[landni]=makeLand(landni,maxheight=20+terrain[3]*120)
-	
+
 def onLandY(instx):
 	if x== 0:ep = -0.01
 	else:ep = 0.01
 	lastAlt = land[int(((x-ep)%landDensity + instx)//landDensity)]
 	nextAlt = land[int(((x-ep)%landDensity + instx)//landDensity)+1]
 	return lastAlt+(nextAlt-lastAlt)*((((x-ep)%landDensity + instx)%landDensity)/landDensity)
-			
+
 
 gfont = font.GFont(10,2,)
 
@@ -262,7 +261,7 @@ def exe(command):
 		par = command.split("-")[1:]
 		for i in range(0,len(par)):
 			par[i] = par[i].strip()
-		
+
 		if com == "set time":
 			T = int(par[0])
 			settings.msg = ["TIME SET TO "+par[0]+".",settings.msgt]
@@ -280,11 +279,11 @@ def exe(command):
 				fullscreen = [False,True][int(par[0])]
 			if fullscreen:
 				pygame.display.set_mode([width/2,height+50],pygame.FULLSCREEN)
-				
+
 			else:
 				pygame.display.set_mode([width/2,height+50])
 			pygame.display.set_caption("")
-			settings.msg = ["FULLSCREEN "+["OFF.","ON."][fullscreen],settings.msgt]			
+			settings.msg = ["FULLSCREEN "+["OFF.","ON."][fullscreen],settings.msgt]
 		elif com == "spawn":
 			animal = par[0]
 			xn = int(par[1])
@@ -293,7 +292,7 @@ def exe(command):
 			elif animal == "deer":
 				makeDeers(xn)
 			elif animal == "crane":
-				makeCranes(xn)	
+				makeCranes(xn)
 			elif animal == "unicorn":
 				for i in range(xn):
 					r = random.randrange(-5,5)
@@ -303,25 +302,25 @@ def exe(command):
 					unicorn.aspd = 0.2
 					unicorn.dir = -1
 					unicorn.spd = 2
-					deers.append(unicorn)				
+					deers.append(unicorn)
 			settings.msg = [str(xn)+" "+animal+" SPAWNED.",settings.msgt]
 		elif com == "set terrain":
-			#settings.msg = ["PLEASE WAIT",settings.msgt]	
+			#settings.msg = ["PLEASE WAIT",settings.msgt]
 			if int(par[0]) > 1:
 				raise
 			terrain = [int(par[0])]*4
 			totalMade = [0]*4
 			for landni in range(0,len(land)):
 				land[landni]=makeLand(landni,maxheight=20+terrain[3]*120)
-			mt(1, 3,2,1,0)	
-			mt(2, 3,2,1,0)	
-			settings.msg = ["TERRAIN SET TO "+par[0]+".",settings.msgt]	
+			mt(1, 3,2,1,0)
+			mt(2, 3,2,1,0)
+			settings.msg = ["TERRAIN SET TO "+par[0]+".",settings.msgt]
 		elif com == "set tree density":
 			print terrain
 			terrain = [terrain[3]]*4
 			totalMade = [0]*4
 			for landni in range(0,len(land)):
-				land[landni]=makeLand(landni,maxheight=20+terrain[3]*120)			
+				land[landni]=makeLand(landni,maxheight=20+terrain[3]*120)
 			treeDensity = int(width/float(par[0]))
 			mt(1, 3,2,1,0)
 			mt(2, 3,2,1,0)
@@ -340,7 +339,7 @@ def main():
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT: sys.exit()
 			man.keyupdowncontrol(event,horse)
-			
+
 			if event.type == pygame.KEYDOWN:
 				if showconsole:
 					k = pygame.key.name(event.key)
@@ -356,8 +355,8 @@ def main():
 						keyseq.append(k)
 					elif event.key == pygame.K_BACKSPACE :
 						if len(keyseq) > 0:
-							keyseq.pop() 
-							
+							keyseq.pop()
+
 				if event.key == pygame.K_SLASH:
 					showconsole = not showconsole
 					if showconsole:
@@ -376,56 +375,56 @@ def main():
 		for i in range(0,len(Ls)):
 			if i == 2:
 				for c in cranes:
-					c.draw(canvas)	
+					c.draw(canvas)
 			if i == 3:#+terrain:
 				"""
 				gfont.s = 10
 
 				gfont.w = 1
 				gfont.color = (120,120,120)
-				
+
 				gfont.drawStr(canvas,"Hermit",300-x*0.7,260)
-				
+
 				gfont.s = 5
 				gfont.w = 1
 				gfont.color = (120,120,120)
 				gfont.drawStr(canvas,"by lingdong",450-x*0.7,280)
-				
+
 			"""
 				for d in deers:
-					d.draw(canvas)	
-		
+					d.draw(canvas)
+
 				horse.draw(canvas)
 				man.draw(canvas)
 				for a in arrows:
 					a.draw(canvas)
 				for b in birds:
 					b.simpDraw(canvas)
-		
+
 				pctrl.draw(canvas)
 
 			if Ls[i] != None:
 				canvas.blit(Ls[i],[locs[i]-x*lspds[i]-buff,0])
-				
+
 			if locs[i]-x*lspds[i] < -width-buff:
 				locs[i] += width*2
 				Ls[i] = None
 				thread.start_new_thread(mt,(1, i))
-				
-				
+
+
 			if Lrs[i] != None:
 				canvas.blit(Lrs[i],[locrs[i]-x*lspds[i]-buff,0])
-				
+
 			if locrs[i]-x*lspds[i] < -width-buff:
 				locrs[i] += width*2
 				Lrs[i] = None
-				thread.start_new_thread(mt,(2, i))		
+				thread.start_new_thread(mt,(2, i))
 		clock.tick()
 		T += 1
 		u.text(canvas,10,10,"FPS: %.1f" % clock.get_fps(),(160,160,160))
-		
+
 		man.keyholdcontrol()
-		
+
 		if (0 or pygame.key.get_pressed()[pygame.K_RIGHT]) and not man.status[0].endswith("ing"):
 			for a in arrows:
 				a.x -= SPEED
@@ -439,7 +438,7 @@ def main():
 				c.x-=SPEED
 			x+=SPEED
 			horse.walk()
-			
+
 			if random.random()<0.0005:
 				makeBirds(random.randrange(6,12))
 			if random.random() < 0.0005 and terrain[3] == 0:
@@ -447,46 +446,46 @@ def main():
 			if random.random() < 0.001 and terrain[3] == 1:
 				makeCranes(random.randrange(1,5))
 
-			
+
 		else:
 			horse.rest()
-		
-	
+
+
 		u.polygon(canvas,(130,130,130),[[0,height]]+[[landloc-x+i*landDensity,height-land[i]] for i in range(0,len(land))]+[[width/2,height]])
-		
-		
+
+
 		if -x+landloc<-landDensity:
 			landni += 1
 			land.append(makeLand(landni,maxheight=20+terrain[3]*120))
 			land.pop(0)
 			landloc += landDensity
-		
+
 
 		man.yo = height-20-onLandY(man.x)
 		horse.yo = height-30-onLandY(horse.x)
-		
+
 
 
 		for d in deers:
-			
+
 			d.yo = height-30-onLandY(max(min(d.x,width/2),0))
-			
+
 			if noise.noise(T*0.001,deers.index(d))<0.5:
 				d.x -= d.spd
 				d.walk()
 			else:
 				d.rest()
-				
+
 			if d.x<-100:
 				deers.remove(d)
-		
+
 		for c in cranes:
 			c.x -= 2*c.s
 			c.fly()
 			if c.x<-100:
 				cranes.remove(c)
 
-		
+
 		for a in arrows:
 			#a.fly()
 			#print(a.x)
@@ -498,7 +497,7 @@ def main():
 				a.flicker = 0
 			if a.x > width/2:
 				arrows.remove(a)
-		
+
 		for b in birds:
 			if b.health > 0:
 				if ((abs(man.x - b.x) < 100 and random.random()<0.05) or random.random()<0.0002) and b.on == 0:
@@ -508,17 +507,17 @@ def main():
 					b.v=[rl*math.cos(ra),-rl*math.sin(ra)]
 				if b.on == 1:
 					b.simpFly()
-					
+
 					if abs(man.x - b.x) > 160 and random.random()<1:
 						b.v[1] = min(b.v[1]+0.05,0.4)
 					if b.y >= 2:
 						b.on = 0
-						
+
 				else:
 					b.rest()
 					if 0 < b.x < width/2:
 						b.yo=height-3-onLandY(b.x)
-					
+
 				for a in arrows:
 					#print(u.dist(a.x,a.y,b.x,b.y+b.yo))
 					if u.dist(a.x,a.y,b.x,b.y+b.yo) < b.s*30 and a.v[0] > 0:
@@ -529,47 +528,47 @@ def main():
 						b.y = a.calcFeather()[1] - b.yo
 						for i in range(0,12):
 							pctrl.particles.append(particle.Particle(a.calcFeather()[0],a.calcFeather()[1],[8*(random.random()-0.5),8*(random.random()-0.3)]))
-						
+
 				if b.x<0 or b.x>width or b.yo<0:
 					birds.remove(b)
 			else:
 				b.fall()
 		pctrl.emit()
 
-				
+
 		man.animate()
 		horse.animate()
 		#array = []
 		#screen.unlock()
 		screen.blit(canvas,[0,0])
-		
-		
-		
+
+
+
 		reflection = canvas#pygame.transform.flip(canvas,False,True)
 		pygame.draw.rect(screen,(180,180,180),[0,height,width/2,50])
 		for i in range(0,2*(screen.get_height()-height),2):
 			screen.blit(reflection,[(math.sin(i*0.5))*i*0.5+(noise.noise(pygame.time.get_ticks()*0.001,i*0.2)-0.5)*20,height+i-1],(0,height-i,width/2,1))
-			
-		
+
+
 
 		if settings.msg[0] != "":
 			screen.blit(box,[5,height+33-showconsole*20])
 			u.text(screen,10,height+35-showconsole*20,settings.msg[0],(240,240,240))
-		
-		
+
+
 		if settings.msg[1] <= 0 and not showconsole:
 			settings.msg[0] = ""
 		else:
 			settings.msg[1]-=1
-			
+
 		if showconsole:
 			input = "".join(keyseq)
-			u.text(screen,10,height+25,">"+input.lower(),(240,240,240))	
-			u.text(screen,10,height+35," "+" | ".join(parse.parse(input.split("-")[0],commandlist)[:3]),(240,240,240))			
+			u.text(screen,10,height+25,">"+input.lower(),(240,240,240))
+			u.text(screen,10,height+35," "+" | ".join(parse.parse(input.split("-")[0],commandlist)[:3]),(240,240,240))
 		array = [pygame.surfarray.pixels_red(screen),pygame.surfarray.pixels_green(screen),pygame.surfarray.pixels_blue(screen)]
 		filter.filter(array,T)
 		array = []
-		
+
 		#icon.blit(screen,[0,0],[0,0,512,512])
 		#pygame.display.set_icon(icon)
 		pygame.display.flip()
@@ -587,5 +586,5 @@ print('loaded')
 treeDensity = 16
 
 t3 = thread.start_new_thread(mt, (2, 3,2,1,0))
-	
+
 main()
