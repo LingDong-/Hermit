@@ -10,7 +10,7 @@ A walk.
 
 ## HOW TO RUN
 Download the project. In terminal, type:
-`python /path/to/folder/main.py`
+`python /path/to/folder/src/main.py`
 
 
 ## VIDEO
