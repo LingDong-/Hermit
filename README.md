@@ -1,7 +1,7 @@
 # Hermit
 A walk.
 
-(Winner of Fall 2015 CS 15-112 Final Project Contest at CMU)
+(Winner of Fall 2015 CS 15-112 Term Project Contest at CMU)
 
 ## DEPENDENCIES
 * Python 2 (https://www.python.org/downloads/)
