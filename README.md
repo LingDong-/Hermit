@@ -13,3 +13,8 @@ Download the project. In terminal, type:
 
 ## VIDEO
 https://www.youtube.com/watch?v=mPYeTJd8klQ
+
+## Features
+* Procedurally generated map
+* Day-night transition
+* Extremely detailed animations
