@@ -1,4 +1,4 @@
-# hermit
+# Hermit
 A walk.
 
 ## DEPENDENCIES
