@@ -13,7 +13,6 @@ Download the project. In terminal, type:
 ```bash
 $ python /path/to/folder/src/main.py
 ```
-For Mac Users, binary is available in release folder. Note that the binary is not always updated.
 
 ## VIDEO
 https://www.youtube.com/watch?v=mPYeTJd8klQ
