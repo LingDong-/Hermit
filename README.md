@@ -1,5 +1,5 @@
 # Hermit
-A walk.
+A man. A horse. A nature.
 
 (Winner of Fall 2015 CS 15-112 Term Project Contest at CMU)
 
